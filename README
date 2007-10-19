@@ -1,0 +1,56 @@
+Rumbster README
+===============
+
+  Rumbster is a fake smtp server for email testing in Ruby.
+  Rumbster was developed to as a way to acceptance test email
+  sending applications.
+
+Requirements
+------------
+
+   * Ruby 1.8.2 or later (may work with earlier versions)
+
+License
+-------
+
+  GNU LGPL, Lesser General Public License version 2.1
+  For details of LGPL, see file "COPYING".
+
+Example Usage
+-------------
+
+A good source for usage information is the unit tests in the 
+test directory.   Below is an example of the usage.
+
+class TestEmails < Test::Unit::TestCase
+
+  def setup
+    @rumbster = Rumbster.new(port)
+    @message_observer = MailMessageObserver.new
+
+    @rumbster.add_observer @message_observer
+    @rumbster.add_observer FileMessageObserver.new('some/directory')
+
+    @rumbster.start
+  end
+
+  def teardown
+    @rumbster.stop
+  end
+
+  def test_email_is_sent
+    send_email
+    assert_equal 1, @message_observer.messages.size
+    assert_equal 'junk@junk.com', @message_observer.messages.first.to
+  end
+end
+
+Bug Report
+----------
+
+  Any bug reports are welcome.
+  If you encounter a bug, please email me.
+
+  Adam Esterline
+  adam@esterlines.com
+  http://adamesterline.com
