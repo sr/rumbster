@@ -10,11 +10,11 @@ class Rumbster < GServer
   end
   
   def serve(io)
-    @protocol = SmtpProtocol.create
+    protocol = SmtpProtocol.create
     @observers.each do |observer|
-      @protocol.add_observer(observer)
+      protocol.add_observer(observer)
     end
-    @protocol.serve(io)
+    protocol.serve(io)
   end
   
   def add_observer(observer)
